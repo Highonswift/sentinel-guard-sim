@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Camera, Detection } from '@/lib/dummyData';
 import { CameraTile } from '@/components/CameraTile';
 import { SnapshotModal } from '@/components/SnapshotModal';
@@ -12,12 +12,19 @@ interface LiveCamerasProps {
 export default function LiveCameras({ cameras, detections, onMarkAction }: LiveCamerasProps) {
   const [selectedDetection, setSelectedDetection] = useState<Detection | null>(null);
 
-  const getLatestDetection = (cameraId: string) => {
-    const cameraDetections = detections
-      .filter(d => d.cameraId === cameraId)
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
-    return cameraDetections[0] || null;
-  };
+  // Memoize detection mapping to prevent unnecessary re-renders
+  const detectionMap = useMemo(() => {
+    const map = new Map<string, Detection>();
+    cameras.forEach(camera => {
+      const cameraDetections = detections
+        .filter(d => d.cameraId === camera.id)
+        .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      if (cameraDetections[0]) {
+        map.set(camera.id, cameraDetections[0]);
+      }
+    });
+    return map;
+  }, [cameras, detections]);
 
   return (
     <div className="p-6 space-y-6">
@@ -31,9 +38,9 @@ export default function LiveCameras({ cameras, detections, onMarkAction }: LiveC
           <CameraTile
             key={camera.id}
             camera={camera}
-            detection={getLatestDetection(camera.id)}
+            detection={detectionMap.get(camera.id) || null}
             onClick={() => {
-              const det = getLatestDetection(camera.id);
+              const det = detectionMap.get(camera.id);
               if (det) setSelectedDetection(det);
             }}
           />

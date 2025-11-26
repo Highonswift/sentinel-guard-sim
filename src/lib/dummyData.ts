@@ -31,6 +31,27 @@ export interface Detection {
 const zones: Zone[] = ['Gate', 'Warehouse', 'Office', 'Yard', 'Parking', 'Entrance'];
 const objects: DetectionObject[] = ['Person', 'Vehicle', 'Leaf', 'Shadow', 'Insect', 'Light', 'None'];
 
+// Realistic security camera videos showing outdoor areas, buildings, trees, parking lots
+const cameraVideos = [
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', // Outdoor scene
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', // Landscape
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4', // Outdoor activity
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4', // Vehicle scene
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4', // Outdoor
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4', // Outdoor landscape
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4', // Street/parking
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4', // Urban/building
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4', // Vehicle/parking
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4', // Outdoor road
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4', // Vehicle scene
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4', // Outdoor environment
+];
+
+export const getCameraVideo = (cameraId: string): string => {
+  const cameraNumber = parseInt(cameraId.split('-')[1]) - 1;
+  return cameraVideos[cameraNumber % cameraVideos.length];
+};
+
 export const generateCameras = (): Camera[] => {
   return Array.from({ length: 12 }, (_, i) => {
     const id = `CAM-${String(i + 1).padStart(2, '0')}`;
