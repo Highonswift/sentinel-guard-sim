@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Video, FileText, BarChart3, Settings, AlertCircle, Grid3x3, Shield } from 'lucide-react';
+import { LayoutDashboard, Video, FileText, BarChart3, Settings, AlertCircle, Grid3x3, Shield, LogOut, User } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -12,7 +14,12 @@ const navItems = [
   { path: '/alerts', label: 'Alert Review', icon: AlertCircle },
 ];
 
-export const Navigation = () => {
+interface NavigationProps {
+  userRole: 'admin' | 'operator';
+  onLogout: () => void;
+}
+
+export const Navigation = ({ userRole, onLogout }: NavigationProps) => {
   const location = useLocation();
 
   return (
@@ -50,9 +57,35 @@ export const Navigation = () => {
             })}
           </div>
 
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
-            <span className="text-mono">SYSTEM ACTIVE</span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="w-2 h-2 bg-success rounded-full animate-pulse" />
+              <span className="text-mono">SYSTEM ACTIVE</span>
+            </div>
+            
+            <div className="h-6 w-px bg-border" />
+            
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
+                <User className="w-4 h-4 text-muted-foreground" />
+                <Badge 
+                  variant={userRole === 'admin' ? 'default' : 'secondary'}
+                  className="text-xs font-mono uppercase"
+                >
+                  {userRole}
+                </Badge>
+              </div>
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onLogout}
+                className="gap-2 text-muted-foreground hover:text-destructive"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-xs">Logout</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
