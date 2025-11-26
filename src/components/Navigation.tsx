@@ -6,12 +6,12 @@ import { Badge } from '@/components/ui/badge';
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/alerts', label: 'Alert Review', icon: AlertCircle },
   { path: '/live', label: 'Live Cameras', icon: Video },
   { path: '/logs', label: 'Detection Logs', icon: FileText },
   { path: '/analytics', label: 'Analytics', icon: BarChart3 },
   { path: '/cameras', label: 'Camera Mgmt', icon: Settings },
   { path: '/zones', label: 'Zone Masking', icon: Grid3x3 },
-  { path: '/alerts', label: 'Alert Review', icon: AlertCircle },
 ];
 
 interface NavigationProps {
@@ -29,7 +29,7 @@ export const Navigation = ({ userRole, onLogout }: NavigationProps) => {
           <div className="flex items-center gap-3">
             <Shield className="w-8 h-8 text-primary" />
             <div>
-              <h1 className="text-xl font-bold text-primary">SENTINEL</h1>
+              <h1 className="text-xl font-bold text-primary">L&T Rubber Processing Machinery</h1>
               <p className="text-xs text-muted-foreground text-mono">Security Monitoring Platform</p>
             </div>
           </div>

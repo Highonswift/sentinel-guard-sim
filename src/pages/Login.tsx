@@ -43,7 +43,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 <Shield className="w-8 h-8 text-primary" />
               </div>
             </div>
-            <h1 className="text-2xl font-bold text-primary mb-2">SENTINEL</h1>
+            <h1 className="text-2xl font-bold text-primary mb-2">L&T Rubber Processing Machinery</h1>
             <p className="text-sm text-muted-foreground text-mono">Security Monitoring Platform</p>
           </div>
 
@@ -58,7 +58,7 @@ const Login = ({ onLogin }: LoginProps) => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@sentinel.com"
+                  placeholder="admin@highonswift.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
@@ -98,8 +98,8 @@ const Login = ({ onLogin }: LoginProps) => {
           <div className="mt-6 p-4 bg-secondary/50 border border-border rounded-md">
             <p className="text-xs text-muted-foreground mb-2 font-medium">Demo Credentials:</p>
             <div className="space-y-1 text-xs text-mono">
-              <p className="text-foreground">Admin: admin@sentinel.com</p>
-              <p className="text-foreground">Operator: operator@sentinel.com</p>
+              <p className="text-foreground">Admin: admin@highonswift.com</p>
+              <p className="text-foreground">Operator: operator@highonswift.com</p>
               <p className="text-muted-foreground">Password: any</p>
             </div>
           </div>
