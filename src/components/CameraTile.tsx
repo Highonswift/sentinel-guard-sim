@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import { cn } from '@/lib/utils';
-import { Camera, Detection } from '@/lib/dummyData';
+import { Camera, Detection, getCameraVideo } from '@/lib/dummyData';
 import { Video, AlertTriangle } from 'lucide-react';
 
 interface CameraTileProps {
@@ -10,15 +10,19 @@ interface CameraTileProps {
 }
 
 const CameraTileComponent = ({ camera, detection, onClick }: CameraTileProps) => {
-  const [confidence, setConfidence] = useState(0);
+  const [confidence, setConfidence] = useState(detection?.confidence || 0);
+  const [detectionId, setDetectionId] = useState(detection?.id);
 
   useEffect(() => {
-    if (detection) {
+    if (detection && detection.id !== detectionId) {
+      setDetectionId(detection.id);
       setConfidence(0);
       const timer = setTimeout(() => setConfidence(detection.confidence), 100);
       return () => clearTimeout(timer);
+    } else if (detection) {
+      setConfidence(detection.confidence);
     }
-  }, [detection]);
+  }, [detection, detectionId]);
 
   const isAlert = detection?.isAlert;
 
@@ -33,13 +37,14 @@ const CameraTileComponent = ({ camera, detection, onClick }: CameraTileProps) =>
       {/* Video Feed */}
       <div className="aspect-video bg-secondary relative flex items-center justify-center">
         <video
+          key={camera.id}
           className="absolute inset-0 w-full h-full object-cover"
           autoPlay
           loop
           muted
           playsInline
         >
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+          <source src={getCameraVideo(camera.id)} type="video/mp4" />
         </video>
         
         {!camera.online && (
