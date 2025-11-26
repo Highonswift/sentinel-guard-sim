@@ -30,9 +30,17 @@ export const CameraTile = ({ camera, detection, onClick }: CameraTileProps) => {
         isAlert ? 'border-destructive animate-pulse-alert' : 'border-border'
       )}
     >
-      {/* Video Feed Placeholder */}
+      {/* Video Feed */}
       <div className="aspect-video bg-secondary relative flex items-center justify-center">
-        <Video className="w-12 h-12 text-muted-foreground opacity-50" />
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
+        </video>
         
         {!camera.online && (
           <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
