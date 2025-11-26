@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { cn } from '@/lib/utils';
 import { Camera, Detection } from '@/lib/dummyData';
 import { Video, AlertTriangle } from 'lucide-react';
@@ -9,7 +9,7 @@ interface CameraTileProps {
   onClick: () => void;
 }
 
-export const CameraTile = ({ camera, detection, onClick }: CameraTileProps) => {
+const CameraTileComponent = ({ camera, detection, onClick }: CameraTileProps) => {
   const [confidence, setConfidence] = useState(0);
 
   useEffect(() => {
@@ -103,3 +103,12 @@ export const CameraTile = ({ camera, detection, onClick }: CameraTileProps) => {
     </div>
   );
 };
+
+export const CameraTile = memo(CameraTileComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.camera.id === nextProps.camera.id &&
+    prevProps.camera.online === nextProps.camera.online &&
+    prevProps.detection?.id === nextProps.detection?.id &&
+    prevProps.detection?.confidence === nextProps.detection?.confidence
+  );
+});
