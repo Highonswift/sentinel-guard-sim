@@ -60,6 +60,20 @@ export const generateDetection = (cameras: Camera[]): Detection => {
     duration >= 1 &&
     !zoneMasked;
 
+  // Realistic security camera snapshot URLs
+  const securitySnapshots = [
+    'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=400&h=300&fit=crop', // Person in parking lot
+    'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=400&h=300&fit=crop', // Building entrance
+    'https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?w=400&h=300&fit=crop', // Warehouse interior
+    'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=300&fit=crop', // Office building
+    'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=400&h=300&fit=crop', // Gate/fence view
+    'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=400&h=300&fit=crop', // Parking area
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop', // Industrial yard
+    'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop', // Office entrance
+    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=300&fit=crop', // Car in parking
+    'https://images.unsplash.com/photo-1590674899474-d5640e854c2e?w=400&h=300&fit=crop', // Building exterior
+  ];
+
   return {
     id: Math.random().toString(36).substr(2, 9),
     timestamp: new Date(),
@@ -70,7 +84,7 @@ export const generateDetection = (cameras: Camera[]): Detection => {
     zone: camera.zone,
     isAlert: shouldAlert,
     action: 'Pending',
-    snapshot: `https://images.unsplash.com/photo-${1500000000000 + Math.floor(Math.random() * 100000000)}?w=400&h=300&fit=crop`,
+    snapshot: securitySnapshots[Math.floor(Math.random() * securitySnapshots.length)],
     duration,
     zoneMasked,
   };
