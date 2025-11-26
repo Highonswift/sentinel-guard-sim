@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navigation } from '@/components/Navigation';
 import Dashboard from "./pages/Dashboard";
 import LiveCameras from "./pages/LiveCameras";
@@ -12,9 +12,16 @@ import CameraManagement from "./pages/CameraManagement";
 import ZoneMasking from "./pages/ZoneMasking";
 import AlertReview from "./pages/AlertReview";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
 import { generateCameras, generateDetection, Camera, Detection } from '@/lib/dummyData';
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('sentinel_auth') === 'true';
+  });
+  const [userRole, setUserRole] = useState<'admin' | 'operator'>(() => {
+    return (localStorage.getItem('sentinel_role') as 'admin' | 'operator') || 'operator';
+  });
   const [cameras, setCameras] = useState<Camera[]>(generateCameras());
   const [detections, setDetections] = useState<Detection[]>([]);
 
@@ -58,21 +65,74 @@ const App = () => {
     );
   };
 
+  const handleLogin = (role: 'admin' | 'operator') => {
+    setIsAuthenticated(true);
+    setUserRole(role);
+    localStorage.setItem('sentinel_auth', 'true');
+    localStorage.setItem('sentinel_role', role);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserRole('operator');
+    localStorage.removeItem('sentinel_auth');
+    localStorage.removeItem('sentinel_role');
+  };
+
+  // Protected Route wrapper
+  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
+    }
+    return <>{children}</>;
+  };
+
   return (
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
         <div className="min-h-screen bg-background">
-          <Navigation />
+          {isAuthenticated && <Navigation userRole={userRole} onLogout={handleLogout} />}
           <Routes>
-            <Route path="/" element={<Dashboard cameras={cameras} detections={detections} />} />
-            <Route path="/live" element={<LiveCameras cameras={cameras} detections={detections} onMarkAction={handleMarkAction} />} />
-            <Route path="/logs" element={<DetectionLogs detections={detections} onMarkAction={handleMarkAction} />} />
-            <Route path="/analytics" element={<Analytics cameras={cameras} detections={detections} />} />
-            <Route path="/cameras" element={<CameraManagement cameras={cameras} onUpdateCamera={handleUpdateCamera} onDeleteCamera={handleDeleteCamera} onAddCamera={handleAddCamera} />} />
-            <Route path="/zones" element={<ZoneMasking cameras={cameras} onToggleMask={handleToggleMask} />} />
-            <Route path="/alerts" element={<AlertReview detections={detections} onMarkAction={handleMarkAction} />} />
+            <Route path="/login" element={
+              isAuthenticated ? <Navigate to="/" replace /> : <Login onLogin={handleLogin} />
+            } />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Dashboard cameras={cameras} detections={detections} />
+              </ProtectedRoute>
+            } />
+            <Route path="/live" element={
+              <ProtectedRoute>
+                <LiveCameras cameras={cameras} detections={detections} onMarkAction={handleMarkAction} />
+              </ProtectedRoute>
+            } />
+            <Route path="/logs" element={
+              <ProtectedRoute>
+                <DetectionLogs detections={detections} onMarkAction={handleMarkAction} />
+              </ProtectedRoute>
+            } />
+            <Route path="/analytics" element={
+              <ProtectedRoute>
+                <Analytics cameras={cameras} detections={detections} />
+              </ProtectedRoute>
+            } />
+            <Route path="/cameras" element={
+              <ProtectedRoute>
+                <CameraManagement cameras={cameras} onUpdateCamera={handleUpdateCamera} onDeleteCamera={handleDeleteCamera} onAddCamera={handleAddCamera} />
+              </ProtectedRoute>
+            } />
+            <Route path="/zones" element={
+              <ProtectedRoute>
+                <ZoneMasking cameras={cameras} onToggleMask={handleToggleMask} />
+              </ProtectedRoute>
+            } />
+            <Route path="/alerts" element={
+              <ProtectedRoute>
+                <AlertReview detections={detections} onMarkAction={handleMarkAction} />
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
