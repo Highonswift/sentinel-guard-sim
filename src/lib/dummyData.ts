@@ -1,4 +1,4 @@
-export type DetectionObject = 'Bin overflow' | 'Littering' | 'Tradies' | 'Gates' | 'Person' | 'None';
+export type DetectionObject = 'Bin Overflow' | 'Littering' | 'Tradies' | 'Gates' | 'Person' | 'None';
 export type Zone = 'Gate' | 'Warehouse' | 'Office' | 'Yard' | 'Parking' | 'Entrance';
 export type AlertAction = 'Real' | 'False' | 'Pending';
 
@@ -76,7 +76,7 @@ export const generateDetection = (cameras: Camera[]): Detection => {
   
   // Alert logic
   const shouldAlert = 
-    (object === 'Person' || object === 'Vehicle') &&
+    (object === 'Littering' || object === 'Bin Overflow') &&
     confidence >= camera.alertThreshold &&
     duration >= 1 &&
     !zoneMasked;
@@ -113,7 +113,7 @@ export const generateDetection = (cameras: Camera[]): Detection => {
 
 export const shouldIgnore = (detection: Detection): boolean => {
   return (
-    ['Leaf', 'Insect', 'Light', 'Shadow'].includes(detection.object) ||
+    ['Person', 'Table', 'Light', 'Shadow'].includes(detection.object) ||
     detection.confidence < 30 ||
     detection.duration < 1 ||
     detection.zoneMasked
