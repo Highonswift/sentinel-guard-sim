@@ -1,4 +1,4 @@
-export type DetectionObject = 'Person' | 'Vehicle' | 'Leaf' | 'Shadow' | 'Insect' | 'Light' | 'None';
+export type DetectionObject = 'Bin overflow' | 'Littering' | 'Tradies' | 'Gates' | 'Person' | 'None';
 export type Zone = 'Gate' | 'Warehouse' | 'Office' | 'Yard' | 'Parking' | 'Entrance';
 export type AlertAction = 'Real' | 'False' | 'Pending';
 
@@ -29,7 +29,7 @@ export interface Detection {
 }
 
 const zones: Zone[] = ['Gate', 'Warehouse', 'Office', 'Yard', 'Parking', 'Entrance'];
-const objects: DetectionObject[] = ['Person', 'Vehicle', 'Leaf', 'Shadow', 'Insect', 'Light', 'None'];
+const objects: DetectionObject[] = ['Bin Overflow', 'Littering', 'Tradies', 'Gates', 'Person', 'None'];
 
 // Realistic security camera videos showing outdoor areas, buildings, trees, parking lots
 const cameraVideos = [
@@ -62,7 +62,7 @@ export const generateCameras = (): Camera[] => {
       alertThreshold: 80,
       online: Math.random() > 0.05,
       accuracy: Math.random() * 40 + 60, // 60-100%
-      maskedZones: Math.random() > 0.7 ? ['bin', 'gate'] : [],
+      maskedZones: Math.random() > 0.7 ? ['tree', 'sky'] : [],
     };
   });
 };
