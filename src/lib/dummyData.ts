@@ -62,7 +62,7 @@ export const generateCameras = (): Camera[] => {
       alertThreshold: 80,
       online: Math.random() > 0.05,
       accuracy: Math.random() * 40 + 60, // 60-100%
-      maskedZones: Math.random() > 0.7 ? ['tree', 'sky'] : [],
+      maskedZones: Math.random() > 0.7 ? ['bin', 'gate'] : [],
     };
   });
 };

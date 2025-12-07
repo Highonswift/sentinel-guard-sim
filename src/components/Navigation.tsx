@@ -11,7 +11,7 @@ const navItems = [
   { path: '/logs', label: 'Detection Logs', icon: FileText },
   { path: '/analytics', label: 'Analytics', icon: BarChart3 },
   { path: '/cameras', label: 'Camera Mgmt', icon: Settings },
-  { path: '/zones', label: 'Zone Masking', icon: Grid3x3 },
+  { path: '/zones', label: 'Zone Mgmt', icon: Grid3x3 },
 ];
 
 interface NavigationProps {
@@ -29,8 +29,8 @@ export const Navigation = ({ userRole, onLogout }: NavigationProps) => {
           <div className="flex items-center gap-3">
             <Shield className="w-8 h-8 text-primary" />
             <div>
-              <h1 className="text-xl font-bold text-primary">L&T Rubber Processing Machinery</h1>
-              <p className="text-xs text-muted-foreground text-mono">Security Monitoring Platform</p>
+              <h1 className="text-xl font-bold text-primary"> iDetect</h1>
+              <p className="text-xs text-muted-foreground text-mono">Vision AI System</p>
             </div>
           </div>
           

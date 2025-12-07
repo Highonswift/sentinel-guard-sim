@@ -12,7 +12,7 @@ interface ZoneMaskingProps {
   onToggleMask: (cameraId: string, maskZones: string[]) => void;
 }
 
-const maskOptions = ['tree', 'sky', 'corner', 'entrance'];
+const maskOptions = ['Bin overflow monitoring', 'Litter monitoring', 'Tradies monitoring', 'Gates monitoring'];
 
 export default function ZoneMasking({ cameras, onToggleMask }: ZoneMaskingProps) {
   const handleToggle = (camera: Camera, zone: string, enabled: boolean) => {
@@ -27,8 +27,8 @@ export default function ZoneMasking({ cameras, onToggleMask }: ZoneMaskingProps)
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Zone Masking</h1>
-        <p className="text-muted-foreground">Configure detection-ignored areas for each camera</p>
+        <h1 className="text-3xl font-bold">Zone Management</h1>
+        <p className="text-muted-foreground">Configure detection areas for each camera</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -54,7 +54,7 @@ export default function ZoneMasking({ cameras, onToggleMask }: ZoneMaskingProps)
 
             {/* Mask Options */}
             <div className="space-y-3">
-              <p className="text-sm font-semibold">Mask Regions:</p>
+              <p className="text-sm font-semibold">Selected Monitoring zones:</p>
               {maskOptions.map(zone => (
                 <div key={zone} className="flex items-center justify-between p-2 bg-secondary rounded-lg">
                   <Label htmlFor={`${camera.id}-${zone}`} className="capitalize cursor-pointer">
@@ -70,11 +70,11 @@ export default function ZoneMasking({ cameras, onToggleMask }: ZoneMaskingProps)
             </div>
 
             {/* Summary */}
-            <div className="mt-4 p-3 bg-muted rounded-lg">
+            {/* <div className="mt-4 p-3 bg-muted rounded-lg">
               <p className="text-xs text-muted-foreground">
                 Objects detected in masked zones will be auto-ignored
               </p>
-            </div>
+            </div> */}
           </Card>
         ))}
       </div>

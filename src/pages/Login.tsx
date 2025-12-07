@@ -41,10 +41,11 @@ const Login = ({ onLogin }: LoginProps) => {
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
                 <Shield className="w-8 h-8 text-primary" />
+                {/* <img src='logo-icon.png'/> */}
               </div>
             </div>
-            <h1 className="text-2xl font-bold text-primary mb-2">L&T Rubber Processing Machinery</h1>
-            <p className="text-sm text-muted-foreground text-mono">Security Monitoring Platform</p>
+            <h1 className="text-2xl font-bold text-primary mb-2">iDetect</h1>
+            <p className="text-sm text-muted-foreground text-mono">Vision AI System</p>
           </div>
 
           {/* Login Form */}
